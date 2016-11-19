@@ -29,7 +29,6 @@ public class Board{
         Move cmd = p.getMove();
         Piece piece = cmd.getPiece();
 
-
         // check the two pieces side
         if(spots[cmd.desX][cmd.desY] != null && spots[cmd.desX][cmd.desY].getPiece().getColor() == piece.getColor())
             return false;

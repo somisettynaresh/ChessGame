@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by Naresh on 11/17/2016.
  */
+
 public class Rook extends Piece {
     public Rook(boolean isAlive, int x, int y, PieceColor pieceColor) {
         super(isAlive,x,y,pieceColor,PieceType.Rook);
