@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.iastate.coms572.chess.Board;
+import edu.iastate.coms572.chess.Game;
 import edu.iastate.coms572.chess.Move;
 import edu.iastate.coms572.chess.Spot;
 

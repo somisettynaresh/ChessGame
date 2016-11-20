@@ -9,8 +9,10 @@ import edu.iastate.coms572.chess.players.HumanPlayer;
  */
 public class Game{
     final static Board board = new Board();
-    Player human;
-    Player computer;
+    public static Player human;
+    public static Player computer;
+    
+    public static Player currentPlayer;
 
     public Game() {
     }
@@ -33,17 +35,39 @@ public class Game{
         board.initialize(human);
         
         while(true) {
+        	
+        	setCurrentPlayer(human);
             processTurn(human);
             if(this.board.getWin()) {
                 System.out.println("human Wins");
                 break;
             }
             
+            setCurrentPlayer(computer);
             processTurn(computer);
             if(this.board.getWin()) {
                 System.out.println("Computer Wins!");
                 break;
             }
         }
+    }
+    
+    public static Player getCurrentPlayer(){
+    	return currentPlayer;
+    }
+    
+    private static void setCurrentPlayer(Player curPlayer){
+    	currentPlayer = curPlayer;
+    }
+    
+    
+    //THis will return the player associated with the color
+    public static Player getPlayerByColor(PieceColor color){
+    	if(color == human.color){
+    		return human;
+    	}else{
+    		return computer;
+    	}
+    	
     }
 }
