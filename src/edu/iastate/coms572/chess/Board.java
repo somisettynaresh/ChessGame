@@ -17,6 +17,10 @@ public class Board{
         win = false;
         spots = new Spot[8][8];
     }
+    
+    public Spot[][] getSpots(){
+    	return spots;
+    }
 
     public void initialize(Player p){
         // put the pieces with initial status

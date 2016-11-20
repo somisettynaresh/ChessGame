@@ -9,22 +9,10 @@ import edu.iastate.coms572.chess.players.HumanPlayer;
  */
 public class Game{
     final static Board board = new Board();
-    Player p1;
-    Player p2;
+    Player human;
+    Player computer;
 
     public Game() {
-    }
-
-    public boolean enterPlayer(Player p) {
-        if(p1 == null)
-            this.p1 = p;
-        else if(p2 == null)
-            this.p2 = p;
-        else
-            return false;
-
-        board.initialize(p);
-        return true;
     }
 
     public void processTurn(Player p) {
@@ -38,18 +26,22 @@ public class Game{
 
     public void startGame(){
         // player enter the game:
-        enterPlayer(new ComputerPlayer(PieceColor.Black,"Computer"));
-        enterPlayer(new HumanPlayer(PieceColor.White, "Bill"));
-
+    	computer = new ComputerPlayer(PieceColor.Black,"Computer");
+        board.initialize(computer);
+        
+        human = new HumanPlayer(PieceColor.White, "Bill");
+        board.initialize(human);
+        
         while(true) {
-            processTurn(p1);
+            processTurn(human);
             if(this.board.getWin()) {
-                System.out.println("P1 win!");
+                System.out.println("human Wins");
                 break;
             }
-            processTurn(p2);
+            
+            processTurn(computer);
             if(this.board.getWin()) {
-                System.out.println("P2 win!");
+                System.out.println("Computer Wins!");
                 break;
             }
         }

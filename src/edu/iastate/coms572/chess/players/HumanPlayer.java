@@ -1,5 +1,6 @@
 package edu.iastate.coms572.chess.players;
 
+import edu.iastate.coms572.chess.Board;
 import edu.iastate.coms572.chess.Move;
 import edu.iastate.coms572.chess.Player;
 import edu.iastate.coms572.chess.pieces.PieceColor;
