@@ -57,147 +57,147 @@ public class Knight extends Piece {
     	
     	//Keep all 8 possibilities
     	//1. Up & Right
-    	if((this.getY()+2) < 8 || (this.getX()+1) < 8 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()+1][this.getY()+2].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()+1][this.getY()+2].getPiece().getColor() == this.getColor()){ //Same color
+    	if((fromY+2) < 8 && (fromX+1) < 8 ){ //Move should not send knight out of board
+    		if(curSpots[fromX+1][fromY+2].isOccupied()){ // Occupied
+        		if(curSpots[fromX+1][fromY+2].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}	
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()+1,
-						this.getY()+2));
+    					fromX,
+						fromY,
+						fromX+1,
+						fromY+2));
     		}
     	}
     	
     	
     	//2. Up & Left
 		canMove = true;	
-		if((this.getY()+2) <8 || (this.getX()-1) > -1 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()-1][this.getY()+2].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()-1][this.getY()+2].getPiece().getColor() == this.getColor()){ //Same color
+		if((fromY+2) <8 && (fromX-1) > -1 ){ //Move should not send knight out of board
+    		if(curSpots[fromX-1][fromY+2].isOccupied()){ // Occupied
+        		if(curSpots[fromX-1][fromY+2].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()-1,
-						this.getY()+2));
+    					fromX,
+						fromY,
+						fromX-1,
+						fromY+2));
     		}
     	}
     	
 		
 		//3. Left & Up
 		canMove = true;	
-		if((this.getY()+1) <8 || (this.getX()-2) > -1 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()-2][this.getY()+1].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()-2][this.getY()+1].getPiece().getColor() == this.getColor()){ //Same color
+		if((fromY+1) <8 && (fromX-2) > -1 ){ //Move should not send knight out of board
+    		if(curSpots[fromX-2][fromY+1].isOccupied()){ // Occupied
+        		if(curSpots[fromX-2][fromY+1].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()-2,
-						this.getY()+1));
+    					fromX,
+						fromY,
+						fromX-2,
+						fromY+1));
     		}
     	}
 		
 		//4. Left & Down
 		canMove = true;	
-		if((this.getY()-1) > -1 || (this.getX()-2) > -1 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()-2][this.getY()-1].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()-2][this.getY()-1].getPiece().getColor() == this.getColor()){ //Same color
+		if((fromY-1) > -1 && (fromX-2) > -1 ){ //Move should not send knight out of board
+    		if(curSpots[fromX-2][fromY-1].isOccupied()){ // Occupied
+        		if(curSpots[fromX-2][fromY-1].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()-2,
-						this.getY()-1));
+    					fromX,
+						fromY,
+						fromX-2,
+						fromY-1));
     		}
     	}
 		
 		//5. Down & Left
 		canMove = true;	
-		if((this.getY()-2) > -1 || (this.getX()-1) > -1 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()-1][this.getY()-2].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()-1][this.getY()-2].getPiece().getColor() == this.getColor()){ //Same color
+		if((fromY-2) > -1 && (fromX-1) > -1 ){ //Move should not send knight out of board
+    		if(curSpots[fromX-1][fromY-2].isOccupied()){ // Occupied
+        		if(curSpots[fromX-1][fromY-2].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}	
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()-1,
-						this.getY()-2));
+    					fromX,
+						fromY,
+						fromX-1,
+						fromY-2));
     		}
     	}
 		
 		//6. Down & Right
 		canMove = true;	
-		if((this.getY()-2) > -1 || (this.getX()+1) <8 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()+1][this.getY()-2].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()+1][this.getY()-2].getPiece().getColor() == this.getColor()){ //Same color
+		if((fromY-2) > -1 && (fromX+1) <8 ){ //Move should not send knight out of board
+    		if(curSpots[fromX+1][fromY-2].isOccupied()){ // Occupied
+        		if(curSpots[fromX+1][fromY-2].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()+1,
-						this.getY()-2));
+    					fromX,
+						fromY,
+						fromX+1,
+						fromY-2));
     		}
     	}
 		
 		//7. Right & Down
 		canMove = true;	
-		if((this.getY()-1) > -1 || (this.getX()+2) <8 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()+2][this.getY()-1].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()+2][this.getY()-1].getPiece().getColor() == this.getColor()){ //Same color
+		if((fromY-1) > -1 && (fromX+2) <8 ){ //Move should not send knight out of board
+    		if(curSpots[fromX+2][fromY-1].isOccupied()){ // Occupied
+        		if(curSpots[fromX+2][fromY-1].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()+2,
-						this.getY()-1));
+    					fromX,
+						fromY,
+						fromX+2,
+						fromY-1));
     		}
     	}
 		
 		//8. Right & Up
 		canMove = true;	
-		if((this.getY()+1) < 8 || (this.getX()+ 2) <8 ){ //Move should not send knight out of board
-    		if(curSpots[this.getX()+2][this.getY()+1].isOccupied()){ // Occupied
-        		if(curSpots[this.getX()+2][this.getY()+1].getPiece().getColor() == this.getColor()){ //Same color
+		if((fromY+1) < 8 && (fromX+ 2) <8 ){ //Move should not send knight out of board
+    		if(curSpots[fromX+2][fromY+1].isOccupied()){ // Occupied
+        		if(curSpots[fromX+2][fromY+1].getPiece().getColor() == this.getColor()){ //Same color
         			canMove = false;
         		}
     		}
     		
     		if(canMove){
     			legalMoves.add(new Move(this,
-    					this.getX(),
-						this.getY(),
-						this.getX()+2,
-						this.getY()-1));
+    					fromX,
+						fromY,
+						fromX+2,
+						fromY+1));
     		}
     	}
     	

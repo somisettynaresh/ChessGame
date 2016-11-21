@@ -56,24 +56,24 @@ public class Bishop extends Piece {
     	//Keep going Up or Down until you find a target
     	//1. upper left side
     	int i = 1;
-    	while((this.getY()+i) < 8 && (this.getX()-i) > -1){
-    		if(curSpots[this.getX()][this.getY()+i].isOccupied()){//Occupied
+    	while((fromY+i) < 8 && (fromX-i) > -1){
+    		if(curSpots[fromX-i][fromY+i].isOccupied()){//Occupied
     			//Include move only if Piece if of other color
-				if(curSpots[this.getX()][this.getY()+i].getPiece().getColor() != this.getColor()){
+				if(curSpots[fromX-i][fromY+i].getPiece().getColor() != this.getColor()){
 					legalMoves.add(new Move(this,
-	    					this.getX(),
-							this.getY(),
-							this.getX()-i,
-							this.getY()+i));
+	    					fromX,
+							fromY,
+							fromX-i,
+							fromY+i));
 				}
 				
 				break;
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX()-i,
-										this.getY()+i));
+				    					fromX,
+										fromY,
+										fromX-i,
+										fromY+i));
     			
     		}//End occupied If condition
     		
@@ -82,24 +82,24 @@ public class Bishop extends Piece {
     	
     	//2. Upper Right
     	i = 1;
-    	while((this.getY()+i) < 8 && (this.getX()+i) < 8){
-    		if(curSpots[this.getX()+i][this.getY()+i].isOccupied()){
+    	while((fromY+i) < 8 && (fromX+i) < 8){
+    		if(curSpots[fromX+i][fromY+i].isOccupied()){
     			//Include move only if Piece if of other color
-				if(curSpots[this.getX()][this.getY()+i].getPiece().getColor() != this.getColor()){
+				if(curSpots[fromX+i][fromY+i].getPiece().getColor() != this.getColor()){
 					legalMoves.add(new Move(this,
-	    					this.getX(),
-							this.getY(),
-							this.getX()+i,
-							this.getY()+i));
+	    					fromX,
+							fromY,
+							fromX+i,
+							fromY+i));
 				}
 				
 				break;
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX()+i,
-										this.getY()+i));
+				    					fromX,
+										fromY,
+										fromX+i,
+										fromY+i));
     		}//End occupied If condition
     		
     		i++;
@@ -108,24 +108,24 @@ public class Bishop extends Piece {
     	
     	//3. lower left
     	i = 1;
-    	while((this.getX()-i) > -1 && (this.getY()-i) > -1){
-    		if(curSpots[this.getX()-i][this.getY()-i].isOccupied()){
+    	while((fromX-i) > -1 && (fromY-i) > -1){
+    		if(curSpots[fromX-i][fromY-i].isOccupied()){
     			//Include move only if Piece if of other color
-				if(curSpots[this.getX()][this.getY()+i].getPiece().getColor() != this.getColor()){
+				if(curSpots[fromX-i][fromY-i].getPiece().getColor() != this.getColor()){
 					legalMoves.add(new Move(this,
-	    					this.getX(),
-							this.getY(),
-							this.getX()-i,
-							this.getY()-i));
+	    					fromX,
+							fromY,
+							fromX-i,
+							fromY-i));
 				}
 				
 				break;
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX()-i,
-										this.getY()-i));
+				    					fromX,
+										fromY,
+										fromX-i,
+										fromY-i));
     		}//End occupied If condition
     		
     		i++;
@@ -133,24 +133,24 @@ public class Bishop extends Piece {
     	
     	//4. Lower Right
     	i = 1;
-    	while((this.getX()+i) < 8 && (this.getY()-i) > -1){
-    		if(curSpots[this.getX()+i][this.getY()-i].isOccupied()){
+    	while((fromX+i) < 8 && (fromY-i) > -1){
+    		if(curSpots[fromX+i][fromY-i].isOccupied()){
     			//Include move only if Piece if of other color
-				if(curSpots[this.getX()][this.getY()+i].getPiece().getColor() != this.getColor()){
+				if(curSpots[fromX+i][fromY-i].getPiece().getColor() != this.getColor()){
 					legalMoves.add(new Move(this,
-	    					this.getX(),
-							this.getY(),
-							this.getX()+i,
-							this.getY()-i));
+	    					fromX,
+							fromY,
+							fromX+i,
+							fromY-i));
 				}
 				
 				break;
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX()+i,
-										this.getY()-i));
+				    					fromX,
+										fromY,
+										fromX+i,
+										fromY-i));
     		}//End occupied If condition
     		
     		i++;

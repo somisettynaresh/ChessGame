@@ -58,26 +58,26 @@ public class Rook extends Piece {
     	//Keep going Up or Down until you find a target
     	//1. UP
     	int i = 1;
-    	while((this.getY()+i) < 8){
-    		if(curSpots[this.getX()][this.getY()+i].isOccupied()){ //Occupied
+    	while((fromY+i) < 8){
+    		if(curSpots[fromX][fromY+i].isOccupied()){ //Occupied
     			
-    			if(curSpots[this.getX()][this.getY()+i].getPiece().getColor() != this.getColor()){//Occupied and Different color
+    			if(curSpots[fromX][fromY+i].getPiece().getColor() != this.getColor()){//Occupied and Different color
         			//Add as a legal move
         			legalMoves.add(new Move(this,
-        					this.getX(),
-    						this.getY(),
-    						this.getX(),
-    						this.getY()+i));
+        					fromX,
+    						fromY,
+    						fromX,
+    						fromY+i));
     			}
 
     			//In any case, you need to join out of loop
     			break;
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX(),
-										this.getY()+i));
+				    					fromX,
+										fromY,
+										fromX,
+										fromY+i));
     		}//End occupied If condition
     		
     		i++;
@@ -85,16 +85,16 @@ public class Rook extends Piece {
     	
     	//2. DOWN
     	i = 1;
-    	while((this.getY()-i) > -1){
-    		if(curSpots[this.getX()][this.getY()-i].isOccupied()){ //Occupied
+    	while((fromY-i) > -1){
+    		if(curSpots[fromX][fromY-i].isOccupied()){ //Occupied
     			
-    			if(curSpots[this.getX()][this.getY()-i].getPiece().getColor() != this.getColor()){//Occupied and Different color
+    			if(curSpots[fromX][fromY-i].getPiece().getColor() != this.getColor()){//Occupied and Different color
         			//Add as a legal move
         			legalMoves.add(new Move(this,
-        					this.getX(),
-    						this.getY(),
-    						this.getX(),
-    						this.getY()-i));
+        					fromX,
+    						fromY,
+    						fromX,
+    						fromY-i));
     			}
 
     			//In any case, you need to join out of loop
@@ -102,10 +102,10 @@ public class Rook extends Piece {
     			
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX(),
-										this.getY()-i));
+				    					fromX,
+										fromY,
+										fromX,
+										fromY-i));
     		}//End occupied If condition
     		
     		i++;
@@ -114,15 +114,15 @@ public class Rook extends Piece {
     	
     	//3. LEFT
     	i = 1;
-    	while((this.getX()-i) > -1){
-    		if(curSpots[this.getX()-i][this.getY()].isOccupied()){ //Occupied
-    			if(curSpots[this.getX()-i][this.getY()].getPiece().getColor() != this.getColor()){//Occupied and Different color
+    	while((fromX-i) > -1){
+    		if(curSpots[fromX-i][fromY].isOccupied()){ //Occupied
+    			if(curSpots[fromX-i][fromY].getPiece().getColor() != this.getColor()){//Occupied and Different color
         			//Add as a legal move
         			legalMoves.add(new Move(this,
-        					this.getX(),
-    						this.getY(),
-    						this.getX()-i,
-    						this.getY()));
+        					fromX,
+    						fromY,
+    						fromX-i,
+    						fromY));
     			}
 
     			//In any case, you need to join out of loop
@@ -130,10 +130,10 @@ public class Rook extends Piece {
     			
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX()-i,
-										this.getY()));
+				    					fromX,
+										fromY,
+										fromX-i,
+										fromY));
     		}//End occupied If condition
     		
     		i++;
@@ -141,15 +141,15 @@ public class Rook extends Piece {
     	
     	//4. RIGHT
     	i = 1;
-    	while((this.getX()+i) < 8){
-    		if(curSpots[this.getX()+i][this.getY()].isOccupied()){ //Occupied
-    			if(curSpots[this.getX()+i][this.getY()].getPiece().getColor() != this.getColor()){//Occupied and Different color
+    	while((fromX+i) < 8){
+    		if(curSpots[fromX+i][fromY].isOccupied()){ //Occupied
+    			if(curSpots[fromX+i][fromY].getPiece().getColor() != this.getColor()){//Occupied and Different color
         			//Add as a legal move
         			legalMoves.add(new Move(this,
-        					this.getX(),
-    						this.getY(),
-    						this.getX()+i,
-    						this.getY()));
+        					fromX,
+    						fromY,
+    						fromX+i,
+    						fromY));
     			}
 
     			//In any case, you need to join out of loop
@@ -157,10 +157,10 @@ public class Rook extends Piece {
     			
     		}else{//Not Occupied
     			legalMoves.add(new Move(this,
-				    					this.getX(),
-										this.getY(),
-										this.getX()+i,
-										this.getY()));
+				    					fromX,
+										fromY,
+										fromX+i,
+										fromY));
     		}//End occupied If condition
     		
     		i++;
