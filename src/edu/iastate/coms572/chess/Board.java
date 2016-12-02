@@ -10,38 +10,46 @@ import java.util.List;
  */
 public class Board{
 
+    /**
+     * Getter for property 'spots'.
+     *
+     * @return Value for property 'spots'.
+     */
+    public Spot[][] getSpots() {
+        return spots;
+    }
+
     private Spot[][] spots;
     private boolean win; // mark the win or not
     private List<Move> history = new ArrayList();
     public Board(){
         win = false;
         spots = new Spot[8][8];
+        for (int i=0; i<8; i++) {
+            for(int j=0; j<8; j++) {
+                spots[i][j] = new Spot(i,j);
+            }
+        }
     }
     
-    public Spot[][] getSpots(){
-    	return spots;
-    }
 
     public void initialize(Player p){
         // put the pieces with initial status
         for(int i=0; i<p.getPieces().size(); i++){
-            spots[p.getPieces().get(i).getX()][p.getPieces().get(i).getY()].occupySpot(p.getPieces().get(i));
+            Spot spot = new Spot(p.getPieces().get(i).getX(), p.getPieces().get(i).getY(),p.getPieces().get(i));
+            spots[p.getPieces().get(i).getX()][p.getPieces().get(i).getY()] = spot;
         }
     }
 
-    public boolean executeMove(Player p) {
-        Move cmd = p.getMove();
-        Piece piece = cmd.getPiece();
-
-        // check the two pieces side
-        if(spots[cmd.desX][cmd.desY] != null && spots[cmd.desX][cmd.desY].getPiece().getColor() == piece.getColor())
-            return false;
+    public boolean executeMove(Move move) {
+        Piece piece = move.getPiece();
 
         // check and change the state on spot
-        Piece taken = spots[cmd.desX][cmd.desY].occupySpot(piece);
+        spots[move.curX][move.curY].releaseSpot();
+        Piece taken = spots[move.desX][move.desY].occupySpot(piece);
         if(taken != null &&taken.getClass().getName().equals("King"))
             this.win = true;
-        spots[cmd.curX][cmd.curY].releaseSpot();
+
         return true;
     }
 

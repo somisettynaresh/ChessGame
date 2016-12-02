@@ -4,70 +4,110 @@ import edu.iastate.coms572.chess.pieces.PieceColor;
 import edu.iastate.coms572.chess.players.ComputerPlayer;
 import edu.iastate.coms572.chess.players.HumanPlayer;
 
+import javax.swing.*;
+
 /**
  * Created by Naresh on 11/17/2016.
  */
-public class Game{
+public class Game {
+    /**
+     * Getter for property 'board'.
+     *
+     * @return Value for property 'board'.
+     */
+    public static Board getBoard() {
+        return board;
+    }
+
     final static Board board = new Board();
-    public static Player human;
-    public static Player computer;
-    
-    public static Player currentPlayer;
+    private static Player currentPlayer;
+    static Player p1;
+    static Player p2;
+    private static ChessGUI chessGUI;
 
     public Game() {
+
     }
 
-    public void processTurn(Player p) {
-        // edu.iastate.coms572.chess.Player make a command and until it is valid
-        // System input
-      /*  do{
-            Move cmd = new Move(input);
-            p.addCommand(cmd);
-        }while(!board.executeMove(p));*/
+    void initGame() {
+        enterPlayer(new HumanPlayer(PieceColor.White, "Bill"));
+        enterPlayer(new ComputerPlayer(PieceColor.Black, "Computer"));
+        chessGUI = new ChessGUI(board);
+        this.currentPlayer = p1;
+        initGUI();
     }
 
-    public void startGame(){
+    public boolean enterPlayer(Player p) {
+        if (p1 == null)
+            this.p1 = p;
+        else if (p2 == null)
+            this.p2 = p;
+        else
+            return false;
+
+        board.initialize(p);
+        return true;
+    }
+
+    public void startGame() {
         // player enter the game:
-    	computer = new ComputerPlayer(PieceColor.Black,"Computer");
-        board.initialize(computer);
-        
-        human = new HumanPlayer(PieceColor.White, "Bill");
-        board.initialize(human);
-        
-        while(true) {
-        	
-        	setCurrentPlayer(human);
-            processTurn(human);
-            if(this.board.getWin()) {
+            processTurn(p1);
+            if (this.board.getWin()) {
                 System.out.println("human Wins");
-                break;
             }
-            
-            setCurrentPlayer(computer);
-            processTurn(computer);
-            if(this.board.getWin()) {
-                System.out.println("Computer Wins!");
-                break;
-            }
+
+    }
+
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    private static void setCurrentPlayer(Player curPlayer) {
+        currentPlayer = curPlayer;
+    }
+
+
+    //THis will return the player associated with the color
+    public static Player getPlayerByColor(PieceColor color) {
+        if (color == p1.color) {
+            return p1;
+        } else {
+            return p2;
         }
     }
-    
-    public static Player getCurrentPlayer(){
-    	return currentPlayer;
+
+    static void processTurn(Player player)
+    {
+        currentPlayer = player;
+        if(!player.getClass().getName().contains("HumanPlayer")) {
+            Move move = player.getMove();
+            board.executeMove(move);
+            chessGUI.updatePiecesUI();
+            processTurn(getOpponent());
+        }
     }
-    
-    private static void setCurrentPlayer(Player curPlayer){
-    	currentPlayer = curPlayer;
+
+    public void initGUI() {
+
+        JFrame f = new JFrame("ChessChamp");
+        f.add(chessGUI.getGui());
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setLocationByPlatform(true);
+        f.pack();
+        f.setMinimumSize(f.getSize());
+        f.setVisible(true);
     }
-    
-    
-    //THis will return the player associated with the color
-    public static Player getPlayerByColor(PieceColor color){
-    	if(color == human.color){
-    		return human;
-    	}else{
-    		return computer;
-    	}
-    	
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.initGame();
+        game.startGame();
+    }
+
+
+    public static Player getOpponent() {
+        if(getCurrentPlayer() == p1)
+            return p2;
+        return p1;
     }
 }

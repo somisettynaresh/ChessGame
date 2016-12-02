@@ -1,11 +1,14 @@
 package edu.iastate.coms572.chess;
 
 import edu.iastate.coms572.chess.pieces.Piece;
+import edu.iastate.coms572.chess.pieces.Rook;
 
 /**
  * Created by Naresh on 11/17/2016.
  */
 public class Move {
+
+
     /**
      * Getter for property 'piece'.
      *
@@ -98,10 +101,18 @@ public class Move {
 
     Piece piece;
     int curX, curY, desX, desY;
-    public Move(Piece piece, int curX, int curY, int desX, int desY) {
+    public Move(Piece piece,int desX, int desY) {
         this.piece = piece;
-        this.curX = curX;
-        this.curY = curY;
+        this.curX = piece.getX();
+        this.curY = piece.getY();
+        this.desX = desX;
+        this.desY = desY;
+    }
+
+    public Move(Piece piece,int fromY, int fromX, int desX, int desY) {
+        this.piece = piece;
+        this.curX = fromX;
+        this.curY = fromY;
         this.desX = desX;
         this.desY = desY;
     }

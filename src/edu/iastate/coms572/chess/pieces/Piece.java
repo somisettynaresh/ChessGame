@@ -86,4 +86,7 @@ public abstract class Piece {
     public abstract boolean isValidMove(Board board, int fromX, int fromY, int toX, int toY);
     public abstract List<Move> getPossibleMoves(Board board, int fromX, int fromY);
 
+    public String getPath() {
+        return getColor().toString() +"_" + getPieceType().toString() + ".png";
+    }
 }

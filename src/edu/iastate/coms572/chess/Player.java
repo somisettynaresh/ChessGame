@@ -41,7 +41,7 @@ public abstract class Player {
     public void initializePieces(){
         if(this.color.equals(White)){
             for(int i=0; i<8; i++){ // draw pawns
-                pieces.add(new Pawn(true,i,2, White));
+                pieces.add(new Pawn(true,i,1, White));
             }
             pieces.add(new Rook(true, 0, 0, White));
             pieces.add(new Rook(true, 7, 0, White));

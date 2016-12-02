@@ -2,8 +2,10 @@ package edu.iastate.coms572.chess.players;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.iastate.coms572.chess.Board;
+import edu.iastate.coms572.chess.Game;
 import edu.iastate.coms572.chess.Move;
 import edu.iastate.coms572.chess.Player;
 import edu.iastate.coms572.chess.pieces.Piece;
@@ -19,8 +21,8 @@ public class ComputerPlayer extends Player{
 
     @Override
     public Move getMove() {
-    	
-        return null;
+    	List<Move> legalMoves = getLegalMoves(Game.getBoard());
+        return legalMoves.get(new Random().nextInt(legalMoves.size()-1));
     }
     
 
@@ -31,11 +33,13 @@ public class ComputerPlayer extends Player{
     	//2. Get the list of all legal moves
     	ArrayList<Move> legalMoves = new ArrayList<Move>();
     	for(Piece pc : pieceList){
-    		legalMoves.addAll(pc.getPossibleMoves(board, pc.getX(), pc.getY()));
+            List<Move> moves = pc.getPossibleMoves(board, pc.getX(), pc.getY());
+            if(moves!=null)
+    		    legalMoves.addAll(moves);
     	}
     	
     	//At this point, for each legal move, we need to do alpha-beta pruning
-    	return null;
+    	return legalMoves;
     }
     
 }
