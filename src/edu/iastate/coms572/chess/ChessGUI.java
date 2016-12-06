@@ -38,9 +38,9 @@ public class ChessGUI {
     };
     public static final int BLACK = 0, WHITE = 1;
 */
-    ChessGUI(Board board) {
+    ChessGUI() {
         initializeGui();
-        spots = board.getSpots();
+        spots = Game.getInstance().getBoard().getSpots();
         updatePiecesUI();
     }
 
@@ -108,24 +108,26 @@ public class ChessGUI {
                 final int finalIi = ii;
                 final int finalJj = jj;
                 b.addActionListener(e -> {
-                    if (pieceSelected != null && (pieceSelected.getColor() == Game.getCurrentPlayer().color) && (piceSelectedPosY == finalIi && piceSelectedPosX == finalJj)) {
+                    if (pieceSelected != null && (pieceSelected.getColor() == Game.getCurrentPlayer().color) && (piceSelectedPosX == finalIi && piceSelectedPosY == finalJj)) {
                         chessBoardSquares[piceSelectedPosX][piceSelectedPosY].setBackground(getBackgroundColor(piceSelectedPosX, piceSelectedPosY));
                         pieceSelected = null;
                         piceSelectedPosX = -1;
                         piceSelectedPosY = -1;
-                    } else if (pieceSelected != null && (pieceSelected.getColor() == Game.getCurrentPlayer().color) && pieceSelected.isValidMove(getBoard(), pieceSelected.getX(), pieceSelected.getY(), finalJj, finalIi)) {
-                        getBoard().executeMove(new Move(pieceSelected, finalJj, finalIi));
+                    } else if (pieceSelected != null && (pieceSelected.getColor() == Game.getCurrentPlayer().color) && pieceSelected.isValidMove(Game.getInstance().getBoard(), pieceSelected.getRow(), pieceSelected.getCol(), finalIi, finalJj)) {
+                        Game.getInstance().getBoard().executeMove(Game.getInstance().getBoard(), new Move(pieceSelected, finalIi, finalJj));
                         chessBoardSquares[piceSelectedPosX][piceSelectedPosY].setBackground(getBackgroundColor(piceSelectedPosX, piceSelectedPosY));
                         pieceSelected = null;
                         piceSelectedPosX = -1;
                         piceSelectedPosY = -1;
                         updatePiecesUI();
-                        processTurn(getOpponent());
-                    } else if (pieceSelected == null && spots[finalJj][finalIi].getPiece() != null) {
-                        pieceSelected = spots[finalJj][finalIi].getPiece();
-                        piceSelectedPosX = pieceSelected.getX();
-                        piceSelectedPosY = pieceSelected.getY();
-                        b.setBackground(Color.LIGHT_GRAY);
+                        Game.getInstance().processTurn(getOpponent());
+                    } else if (pieceSelected == null && spots[finalIi][finalJj].getPiece() != null) {
+                        if(spots[finalIi][finalJj].getPiece().getColor()==Game.getCurrentPlayer().color) {
+                            pieceSelected = spots[finalIi][finalJj].getPiece();
+                            piceSelectedPosX = pieceSelected.getRow();
+                            piceSelectedPosY = pieceSelected.getCol();
+                            b.setBackground(Color.LIGHT_GRAY);
+                        }
                     }
                 });
                 // our chess pieces are 64x64 px in size, so we'll
@@ -162,7 +164,6 @@ public class ChessGUI {
         }
     }
 
-
     private Color getBackgroundColor(int x, int y) {
         if ((y % 2 == 1 && x % 2 == 1)
                 //) {
@@ -182,10 +183,11 @@ public class ChessGUI {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Piece piece = spots[i][j].getPiece();
+                chessBoardSquares[j][i].setBackground(getBackgroundColor(i,j));
                 if (piece != null)
-                    chessBoardSquares[i][j].setIcon(new ImageIcon("D:/ISU/Courses/572/project/Chess/out/production/Chess/edu/iastate/coms572/chess/images/" + piece.getPath()));
+                    chessBoardSquares[j][i].setIcon(new ImageIcon("D:/ISU/Courses/572/project/Chess/out/production/Chess/edu/iastate/coms572/chess/images/" + piece.getPath()));
                 else
-                    chessBoardSquares[i][j].setIcon(null);
+                    chessBoardSquares[j][i].setIcon(null);
             }
         }
     }

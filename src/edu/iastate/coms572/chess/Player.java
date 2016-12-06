@@ -34,6 +34,17 @@ public abstract class Player {
     }
 
     public List<Piece> getPieces() {
+        List<Piece> playerPieces = new ArrayList<>();
+        Spot[][] spots = Game.getInstance().getBoard().getSpots();
+        for (int row=0; row <8; row++) {
+            for (int col=0;col<8;col++) {
+                if(spots[row][col].piece!=null && spots[row][col].piece.getColor() == color){
+                    spots[row][col].piece.setCol(col);
+                    spots[row][col].piece.setRow(row);
+                    playerPieces.add(spots[row][col].piece);
+                }
+            }
+        }
         return pieces;
     }
 
@@ -41,29 +52,29 @@ public abstract class Player {
     public void initializePieces(){
         if(this.color.equals(White)){
             for(int i=0; i<8; i++){ // draw pawns
-                pieces.add(new Pawn(true,i,1, White));
+                pieces.add(new Pawn(true,1,i, White));
             }
             pieces.add(new Rook(true, 0, 0, White));
-            pieces.add(new Rook(true, 7, 0, White));
-            pieces.add(new Bishop(true, 2, 0, White));
-            pieces.add(new Bishop(true, 5, 0, White));
-            pieces.add(new Knight(true, 1, 0, White));
-            pieces.add(new Knight(true, 6, 0, White));
-            pieces.add(new Queen(true, 3, 0, White));
-            pieces.add(new King(true, 4, 0, White));
+            pieces.add(new Rook(true, 0, 7, White));
+            pieces.add(new Bishop(true, 0, 2, White));
+            pieces.add(new Bishop(true, 0, 5, White));
+            pieces.add(new Knight(true, 0, 1, White));
+            pieces.add(new Knight(true, 0, 6, White));
+            pieces.add(new Queen(true, 0, 3, White));
+            pieces.add(new King(true, 0, 4, White));
         }
         else{
             for(int i=0; i<8; i++){ // draw pawns
-                pieces.add(new Pawn(true,i,6, Black));
+                pieces.add(new Pawn(true,6,i, Black));
             }
-            pieces.add(new Rook(true, 0, 7, Black));
+            pieces.add(new Rook(true, 7, 0, Black));
             pieces.add(new Rook(true, 7, 7, Black));
-            pieces.add(new Bishop(true, 2, 7, Black));
-            pieces.add(new Bishop(true, 5, 7, Black));
-            pieces.add(new Knight(true, 1, 7, Black));
-            pieces.add(new Knight(true, 6, 7, Black));
-            pieces.add(new Queen(true, 3, 7, Black));
-            pieces.add(new King(true, 4, 7, Black));
+            pieces.add(new Bishop(true, 7, 2, Black));
+            pieces.add(new Bishop(true, 7, 5, Black));
+            pieces.add(new Knight(true, 7, 1, Black));
+            pieces.add(new Knight(true, 7, 6, Black));
+            pieces.add(new Queen(true, 7, 3, Black));
+            pieces.add(new King(true, 7, 4, Black));
         }
 
     }

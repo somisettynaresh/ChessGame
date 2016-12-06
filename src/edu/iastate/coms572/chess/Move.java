@@ -1,7 +1,6 @@
 package edu.iastate.coms572.chess;
 
 import edu.iastate.coms572.chess.pieces.Piece;
-import edu.iastate.coms572.chess.pieces.Rook;
 
 /**
  * Created by Naresh on 11/17/2016.
@@ -28,92 +27,92 @@ public class Move {
     }
 
     /**
-     * Getter for property 'curX'.
+     * Getter for property 'curRow'.
      *
-     * @return Value for property 'curX'.
+     * @return Value for property 'curRow'.
      */
-    public int getCurX() {
-        return curX;
+    public int getCurRow() {
+        return curRow;
     }
 
     /**
-     * Setter for property 'curX'.
+     * Setter for property 'curRow'.
      *
-     * @param curX Value to set for property 'curX'.
+     * @param curRow Value to set for property 'curRow'.
      */
-    public void setCurX(int curX) {
-        this.curX = curX;
+    public void setCurRow(int curRow) {
+        this.curRow = curRow;
     }
 
     /**
-     * Getter for property 'curY'.
+     * Getter for property 'curCol'.
      *
-     * @return Value for property 'curY'.
+     * @return Value for property 'curCol'.
      */
-    public int getCurY() {
-        return curY;
+    public int getCurCol() {
+        return curCol;
     }
 
     /**
-     * Setter for property 'curY'.
+     * Setter for property 'curCol'.
      *
-     * @param curY Value to set for property 'curY'.
+     * @param curCol Value to set for property 'curCol'.
      */
-    public void setCurY(int curY) {
-        this.curY = curY;
+    public void setCurCol(int curCol) {
+        this.curCol = curCol;
     }
 
     /**
-     * Getter for property 'desX'.
+     * Getter for property 'desRow'.
      *
-     * @return Value for property 'desX'.
+     * @return Value for property 'desRow'.
      */
     public int getDesX() {
-        return desX;
+        return desRow;
     }
 
     /**
-     * Setter for property 'desX'.
+     * Setter for property 'desRow'.
      *
-     * @param desX Value to set for property 'desX'.
+     * @param desX Value to set for property 'desRow'.
      */
     public void setDesX(int desX) {
-        this.desX = desX;
+        this.desRow = desX;
     }
 
     /**
-     * Getter for property 'desY'.
+     * Getter for property 'desCol'.
      *
-     * @return Value for property 'desY'.
+     * @return Value for property 'desCol'.
      */
-    public int getDesY() {
-        return desY;
+    public int getDesCol() {
+        return desCol;
     }
 
     /**
-     * Setter for property 'desY'.
+     * Setter for property 'desCol'.
      *
-     * @param desY Value to set for property 'desY'.
+     * @param desCol Value to set for property 'desCol'.
      */
-    public void setDesY(int desY) {
-        this.desY = desY;
+    public void setDesCol(int desCol) {
+        this.desCol = desCol;
     }
 
     Piece piece;
-    int curX, curY, desX, desY;
-    public Move(Piece piece,int desX, int desY) {
+    int curRow, curCol, desRow, desCol;
+    public Move(Piece piece, int desRow, int desCol) {
         this.piece = piece;
-        this.curX = piece.getX();
-        this.curY = piece.getY();
-        this.desX = desX;
-        this.desY = desY;
+        this.curRow = piece.getRow();
+        this.curCol = piece.getCol();
+        this.desRow = desRow;
+        this.desCol = desCol;
     }
 
-    public Move(Piece piece,int fromY, int fromX, int desX, int desY) {
+    public Move(Piece piece, int fromRow, int fromCol, int desRow, int desCol) {
         this.piece = piece;
-        this.curX = fromX;
-        this.curY = fromY;
-        this.desX = desX;
-        this.desY = desY;
+        this.curRow = fromRow;
+        this.curCol = fromCol;
+        this.desRow = desRow;
+        this.desCol = desCol;
     }
 }

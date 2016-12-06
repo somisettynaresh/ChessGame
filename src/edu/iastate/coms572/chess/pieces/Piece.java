@@ -3,6 +3,7 @@ package edu.iastate.coms572.chess.pieces;
 import edu.iastate.coms572.chess.Board;
 import edu.iastate.coms572.chess.Move;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,9 +11,9 @@ import java.util.List;
  */
 
 
-public abstract class Piece {
-    private int x;
-    private int y;
+public abstract class Piece implements Serializable{
+    private int row;
+    private int col;
 
     private boolean alive; // mark the live or dead
     private PieceColor color; // mark the owner
@@ -54,11 +55,11 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
-    public Piece(boolean alive, int x, int y, PieceColor color, PieceType pieceType) {
+    public Piece(boolean alive, int row, int col, PieceColor color, PieceType pieceType) {
         super();
         this.alive = alive;
-        this.x = x;
-        this.y = y;
+        this.row = row;
+        this.col = col;
         this.color = color;
         this.pieceType = pieceType;
     }
@@ -70,23 +71,24 @@ public abstract class Piece {
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
-    public int getX() {
-        return x;
+    public int getRow() {
+        return row;
     }
-    public void setX(int x) {
-        this.x = x;
+    public void setRow(int row) {
+        this.row = row;
     }
-    public int getY() {
-        return y;
+    public int getCol() {
+        return col;
     }
-    public void setY(int y) {
-        this.y = y;
+    public void setCol(int col) {
+        this.col = col;
     }
 
-    public abstract boolean isValidMove(Board board, int fromX, int fromY, int toX, int toY);
-    public abstract List<Move> getPossibleMoves(Board board, int fromX, int fromY);
+    public abstract boolean isValidMove(Board board, int fromRow, int fromCol, int toRow, int toCol);
+    public abstract List<Move> getPossibleMoves(Board board, int fromRow, int fromCol);
 
     public String getPath() {
         return getColor().toString() +"_" + getPieceType().toString() + ".png";
     }
+    public abstract int getValue();
 }

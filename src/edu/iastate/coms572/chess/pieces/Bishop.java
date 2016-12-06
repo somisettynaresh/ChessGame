@@ -16,18 +16,18 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public boolean isValidMove(Board board, int fromX, int fromY, int toX, int toY) {
-    	if(fromX < 0 || fromX > 7 || 
-			fromY < 0 || fromY > 7||
-			toX < 0 || toX > 7||
-			toY < 0 || toY > 7){
+    public boolean isValidMove(Board board, int fromRow, int fromCol, int toRow, int toCol) {
+    	if(fromRow < 0 || fromRow > 7 ||
+			fromCol < 0 || fromCol > 7||
+			toRow < 0 || toRow > 7||
+			toCol < 0 || toCol > 7){
     		return false;
     	}
     	
-    	List<Move> legalMoves = getPossibleMoves(board, fromX, fromY);
+    	List<Move> legalMoves = getPossibleMoves(board, fromRow, fromCol);
     	
     	for(Move possibleMove : legalMoves){
-    		if(possibleMove.getDesX() == toX && possibleMove.getDesY() == toY)
+    		if(possibleMove.getDesX() == toRow && possibleMove.getDesCol() == toCol)
     			return true;
     	}
     	
@@ -35,20 +35,25 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public List<Move> getPossibleMoves(Board board, int fromX, int fromY) {
+    public List<Move> getPossibleMoves(Board board, int fromRow, int fromCol) {
     	
     	List<Move> legalMoves = null;
     	
     	if(isAlive()){
-    		legalMoves = this.getPossibleMovesForBishop(board, fromX, fromY);		
+    		legalMoves = this.getPossibleMovesForBishop(board, fromRow, fromCol);
     		return legalMoves;
     	}
     	
         return null;
     }
-    
-    
-    private List<Move> getPossibleMovesForBishop(Board board, int fromX, int fromY){
+
+	@Override
+	public int getValue() {
+		return 3;
+	}
+
+
+	private List<Move> getPossibleMovesForBishop(Board board, int fromX, int fromY){
     	Spot[][] curSpots = board.getSpots();
     	ArrayList<Move> legalMoves = new ArrayList<Move>();
     	

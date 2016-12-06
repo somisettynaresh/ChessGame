@@ -2,13 +2,14 @@ package edu.iastate.coms572.chess;
 
 import edu.iastate.coms572.chess.pieces.Piece;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Naresh on 11/17/2016.
  */
-public class Board{
+public class Board implements Serializable,Closeable{
 
     /**
      * Getter for property 'spots'.
@@ -36,17 +37,17 @@ public class Board{
     public void initialize(Player p){
         // put the pieces with initial status
         for(int i=0; i<p.getPieces().size(); i++){
-            Spot spot = new Spot(p.getPieces().get(i).getX(), p.getPieces().get(i).getY(),p.getPieces().get(i));
-            spots[p.getPieces().get(i).getX()][p.getPieces().get(i).getY()] = spot;
+            Spot spot = new Spot(p.getPieces().get(i).getRow(), p.getPieces().get(i).getCol(),p.getPieces().get(i));
+            spots[p.getPieces().get(i).getRow()][p.getPieces().get(i).getCol()] = spot;
         }
     }
 
-    public boolean executeMove(Move move) {
+    public boolean executeMove(Board board, Move move) {
         Piece piece = move.getPiece();
-
+        Spot[][] spots = board.getSpots();
         // check and change the state on spot
-        spots[move.curX][move.curY].releaseSpot();
-        Piece taken = spots[move.desX][move.desY].occupySpot(piece);
+        spots[move.curRow][move.curCol].piece = null;
+        Piece taken = spots[move.desRow][move.desCol].occupySpot(piece);
         if(taken != null &&taken.getClass().getName().equals("King"))
             this.win = true;
 
@@ -55,5 +56,35 @@ public class Board{
 
     public boolean getWin() {
         return win;
+    }
+
+    public Board deepClone() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Board) ois.readObject();
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    public Board clone() {
+        try {
+            return (Board) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
+
+    @Override
+    public void close() throws IOException {
+
     }
 }

@@ -1,7 +1,6 @@
 package edu.iastate.coms572.chess.pieces;
 
 import edu.iastate.coms572.chess.Board;
-import edu.iastate.coms572.chess.Game;
 import edu.iastate.coms572.chess.Move;
 import edu.iastate.coms572.chess.Spot;
 
@@ -17,19 +16,19 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean isValidMove(Board board, int fromX, int fromY, int toX, int toY) {
+    public boolean isValidMove(Board board, int fromRow, int fromCol, int toRow, int toCol) {
     	
-    	if(fromX < 0 || fromX > 7 || 
-			fromY < 0 || fromY > 7||
-			toX < 0 || toX > 7||
-			toY < 0 || toY > 7){
+    	if(fromRow < 0 || fromRow > 7 ||
+			fromCol < 0 || fromCol > 7||
+			toRow < 0 || toRow > 7||
+			toCol < 0 || toCol > 7){
     		return false;
     	}
     	
-    	List<Move> legalMoves = getPossibleMoves(board, fromX, fromY);
+    	List<Move> legalMoves = getPossibleMoves(board, fromRow, fromCol);
     	
     	for(Move possibleMove : legalMoves){
-    		if(possibleMove.getDesX() == toX && possibleMove.getDesY() == toY)
+    		if(possibleMove.getDesX() == toRow && possibleMove.getDesCol() == toCol)
     			return true;
     	}
     	
@@ -38,16 +37,16 @@ public class Pawn extends Piece {
 
 
     @Override
-    public List<Move> getPossibleMoves(Board board, int fromX, int fromY) {
+    public List<Move> getPossibleMoves(Board board, int fromRow, int fromCol) {
     	
     	List<Move> legalMoves = null;
     	
     	if(isAlive()){
     		//Case for White first
     		if(this.getColor() == PieceColor.White){
-    			legalMoves = this.getPossibleMovesForWhite(board, fromX, fromY);
+    			legalMoves = this.getPossibleMovesForWhite(board, fromRow, fromCol);
     		}else if(this.getColor() == PieceColor.Black){
-    			legalMoves = this.getPossibleMovesForBlack(board, fromX, fromY);
+    			legalMoves = this.getPossibleMovesForBlack(board, fromRow, fromCol);
     		}
     		
     		return legalMoves;
@@ -55,9 +54,14 @@ public class Pawn extends Piece {
     	
         return null;
     }
-    
-    
-   //Getting all possible moves if the piece were White
+
+	@Override
+	public int getValue() {
+		return 1;
+	}
+
+
+	//Getting all possible moves if the piece were White
     private List<Move> getPossibleMovesForWhite(Board board, int fromX, int fromY){
     	
     	Spot[][] curSpots = board.getSpots();
@@ -65,19 +69,19 @@ public class Pawn extends Piece {
     	
     	//Check for basic forward move
 		//If its empty, move
-		if(!curSpots[this.getX()][this.getY()+1].isOccupied()){
+		if(!curSpots[this.getRow()+1][this.getCol()].isOccupied()){
 			legalMoves.add(new Move(this, 
-									this.getX(),
-									this.getY()+1));
+									this.getRow()+1,
+									this.getCol()));
 			
 			//SubcaseCase when the piece is moving for the first time
 			//In this case, the piece can move 1 step or 2 steps
-			if(this.getY() == 1){
+			if(this.getRow() == 1){
 				//Check if the spots 2 steps away has a piece.
-				if(!curSpots[this.getX()][this.getY()+2].isOccupied()){
+				if(!curSpots[this.getRow()+2][this.getCol()].isOccupied()){
     				legalMoves.add(new Move(this, 
-    										this.getX(),
-    										this.getY()+2));
+    										this.getRow()+2,
+    										this.getCol()));
 				}
 			}
 			
@@ -86,27 +90,27 @@ public class Pawn extends Piece {
 		
 		
 		//Now, lets check for KILLING moves on upper left side
-		if(this.getX() > 0 ){
+		if(this.getCol() > 0 ){
 			//If occupied by a different color, then add KILL move
-			if(curSpots[this.getX()-1][this.getY()+1].isOccupied()){
-				if(curSpots[this.getX()-1][this.getY()+1].getPiece().getColor() == PieceColor.Black){
+			if(curSpots[this.getRow()+1][this.getCol()-1].isOccupied()){
+				if(curSpots[this.getRow()+1][this.getCol()-1].getPiece().getColor() == PieceColor.Black){
     				//Add this killer move
     				legalMoves.add(new Move(this, 
-							this.getX()-1,
-							this.getY()+1));		
+							this.getRow()+1,
+							this.getCol()-1));
     			}
 			}
 		}//end if
 		
-		if(this.getX() < 7 ){
+		if(this.getCol() < 7 ){
 			//Now, lets check for KILLING moves on upper right side
-			if(curSpots[this.getX()+1][this.getY()+1].isOccupied()){
+			if(curSpots[this.getRow()+1][this.getCol()+1].isOccupied()){
 				//If occupied by a different color, then add KILL move
-				if(curSpots[this.getX()+1][this.getY()+1].getPiece().getColor() == PieceColor.Black){
+				if(curSpots[this.getRow()+1][this.getCol()+1].getPiece().getColor() == PieceColor.Black){
     				//Add this killer move
     				legalMoves.add(new Move(this, 
-							this.getX()+1,
-							this.getY()+1));
+							this.getRow()+1,
+							this.getCol()+1));
     			}
 			}
 			
@@ -123,19 +127,19 @@ public class Pawn extends Piece {
     	
     	//Check for basic downward move
 		//If its empty, move
-		if(!curSpots[this.getX()][this.getY()-1].isOccupied()){
+		if(!curSpots[this.getRow()-1][this.getCol()].isOccupied()){
 			legalMoves.add(new Move(this, 
-									this.getX(),
-									this.getY()-1));
+									this.getRow()-1,
+									this.getCol()));
 			
 			//SubcaseCase when the piece is moving for the first time
 			//In this case, the piece can move 1 step or 2 steps
-			if(this.getY() == 6){
+			if(this.getRow() == 6){
 				//Check if the spots 2 steps away has a piece.
-				if(!curSpots[this.getX()][this.getY()-2].isOccupied()){
+				if(!curSpots[this.getRow()-2][this.getCol()].isOccupied()){
     				legalMoves.add(new Move(this, 
-    										this.getX(),
-    										this.getY()-2));
+    										this.getRow()-2,
+    										this.getCol()));
 				}
 			}
 			
@@ -143,28 +147,28 @@ public class Pawn extends Piece {
 		
 		
 		//Now, lets check for KILLING moves on lower left side
-		if(this.getX() > 0 ){
-			if(curSpots[this.getX()-1][this.getY()-1].isOccupied()){
-				if(curSpots[this.getX()-1][this.getY()-1].getPiece().isAlive() &&
-    					curSpots[this.getX()-1][this.getY()+1].getPiece()!=null && curSpots[this.getX()-1][this.getY()+1].getPiece().getColor() == PieceColor.White){
+		if(this.getCol() > 0 ){
+			if(curSpots[this.getRow()-1][this.getCol()-1].isOccupied()){
+				if(curSpots[this.getRow()-1][this.getCol()-1].getPiece().isAlive() &&
+    					curSpots[this.getRow()+1][this.getCol()-1].getPiece()!=null && curSpots[this.getRow()+1][this.getCol()-1].getPiece().getColor() == PieceColor.White){
     				//Add this killer move
     				legalMoves.add(new Move(this, 
-							this.getX()-1,
-							this.getY()-1));
+							this.getRow()-1,
+							this.getCol()-1));
     				
     			}
 			}
 		}//end if
 		
-		if(this.getX() < 7 ){
+		if(this.getCol() < 7 ){
 			//Now, lets check for KILLING moves on upper right side
-			if(curSpots[this.getX()+1][this.getY()-1].isOccupied()){
-				if(curSpots[this.getX()+1][this.getY()-1].getPiece().isAlive() &&
-    					curSpots[this.getX()+1][this.getY()+1].getPiece()!=null && curSpots[this.getX()+1][this.getY()+1].getPiece().getColor() == PieceColor.White){
+			if(curSpots[this.getRow()-1][this.getCol()+1].isOccupied()){
+				if(curSpots[this.getRow()-1][this.getCol()+1].getPiece().isAlive() &&
+    					curSpots[this.getRow()-1][this.getCol()+1].getPiece()!=null && curSpots[this.getRow()-1][this.getCol()+1].getPiece().getColor() == PieceColor.White){
     				//Add this killer move
     				legalMoves.add(new Move(this, 
-							this.getX()+1,
-							this.getY()-1));
+							this.getRow()-1,
+							this.getCol()+1));
     			}
 			}
 			

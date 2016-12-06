@@ -15,33 +15,53 @@ public class Game {
      *
      * @return Value for property 'board'.
      */
-    public static Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
-    final static Board board = new Board();
+    private static Game game;
+    final Board board = new Board();
     private static Player currentPlayer;
-    static Player p1;
-    static Player p2;
+    static Player humanPlayer;
+
+    /**
+     * Getter for property 'humanPlayer'.
+     *
+     * @return Value for property 'humanPlayer'.
+     */
+    public static Player getHumanPlayer() {
+        return humanPlayer;
+    }
+
+    /**
+     * Getter for property 'computerPlayer'.
+     *
+     * @return Value for property 'computerPlayer'.
+     */
+    public static Player getComputerPlayer() {
+        return computerPlayer;
+    }
+
+    static Player computerPlayer;
     private static ChessGUI chessGUI;
 
-    public Game() {
+    private Game() {
 
     }
 
     void initGame() {
         enterPlayer(new HumanPlayer(PieceColor.White, "Bill"));
         enterPlayer(new ComputerPlayer(PieceColor.Black, "Computer"));
-        chessGUI = new ChessGUI(board);
-        this.currentPlayer = p1;
+        chessGUI = new ChessGUI();
+        this.currentPlayer = humanPlayer;
         initGUI();
     }
 
     public boolean enterPlayer(Player p) {
-        if (p1 == null)
-            this.p1 = p;
-        else if (p2 == null)
-            this.p2 = p;
+        if (humanPlayer == null)
+            this.humanPlayer = p;
+        else if (computerPlayer == null)
+            this.computerPlayer = p;
         else
             return false;
 
@@ -51,10 +71,10 @@ public class Game {
 
     public void startGame() {
         // player enter the game:
-            processTurn(p1);
-            if (this.board.getWin()) {
-                System.out.println("human Wins");
-            }
+        processTurn(humanPlayer);
+        if (this.board.getWin()) {
+            System.out.println("human Wins");
+        }
 
     }
 
@@ -69,19 +89,18 @@ public class Game {
 
     //THis will return the player associated with the color
     public static Player getPlayerByColor(PieceColor color) {
-        if (color == p1.color) {
-            return p1;
+        if (color == humanPlayer.color) {
+            return humanPlayer;
         } else {
-            return p2;
+            return computerPlayer;
         }
     }
 
-    static void processTurn(Player player)
-    {
+     void processTurn(Player player) {
         currentPlayer = player;
-        if(!player.getClass().getName().contains("HumanPlayer")) {
+        if (!player.getClass().getName().contains("HumanPlayer")) {
             Move move = player.getMove();
-            board.executeMove(move);
+            board.executeMove(board, move);
             chessGUI.updatePiecesUI();
             processTurn(getOpponent());
         }
@@ -99,15 +118,21 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.initGame();
         game.startGame();
     }
 
 
     public static Player getOpponent() {
-        if(getCurrentPlayer() == p1)
-            return p2;
-        return p1;
+        if (getCurrentPlayer() == humanPlayer)
+            return computerPlayer;
+        return humanPlayer;
+    }
+
+    public static Game getInstance() {
+        if (game == null)
+            game = new Game();
+        return game;
     }
 }
