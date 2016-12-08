@@ -77,11 +77,11 @@ public abstract class Player {
 
     }
 
-    private List<Move> filterMoves(List<Move> legalMoves) {
+    private List<Move> filterMoves(List<Move> legalMoves, Board board) {
         List<Move> filteredLegalMoves = new ArrayList<>();
         for (Move legalMove : legalMoves) {
-            Board simulatedBoard = Game.getInstance().getBoard().deepClone();
-            simulatedBoard.simulateExecuteMove(simulatedBoard, legalMove);
+            Board simulatedBoard = board.deepClone();
+            simulatedBoard = simulatedBoard.simulateExecuteMove(simulatedBoard, legalMove);
             if (!hasCheck(simulatedBoard)) {
                 filteredLegalMoves.add(legalMove);
             }
@@ -89,12 +89,12 @@ public abstract class Player {
         return filteredLegalMoves;
     }
 
-    private List<Move> resolveCheck(List<Move> legalMoves) {
+    private List<Move> resolveCheck(List<Move> legalMoves, Board board) {
         List<Move> resolvableMoves = new ArrayList<>();
         for (Move legalMove : legalMoves) {
-            Board simulatedBoard = Game.getInstance().getBoard().deepClone();
-            simulatedBoard.simulateExecuteMove(simulatedBoard, legalMove);
-            if(!hasCheck(simulatedBoard)){
+            Board simulatedBoard = board.deepClone();
+            simulatedBoard = simulatedBoard.simulateExecuteMove(simulatedBoard, legalMove);
+            if (!hasCheck(simulatedBoard)) {
                 resolvableMoves.add(legalMove);
             }
         }
@@ -102,11 +102,12 @@ public abstract class Player {
     }
 
     public List<Move> getLegalMoves(Board board) {
-        if(hasCheck(board)){
-            return resolveCheck(getAllLegalMoves(board));
-        }
-        return getAllLegalMoves(board);
+        if (!board.isWin()) {
+                return resolveCheck(getAllLegalMoves(board), board);
+            }
+        return new ArrayList<>();
     }
+
     public List<Move> getAllLegalMoves(Board board) {
 
         //1. Get list of all pieces of the computer
@@ -124,7 +125,7 @@ public abstract class Player {
         return legalMoves;
     }
 
-     List<Piece> getPieces(Board board) {
+    List<Piece> getPieces(Board board) {
         List<Piece> pieces = new ArrayList<>();
         Spot[][] spots = board.getSpots();
         for (int row = 0; row < 8; row++) {
@@ -138,14 +139,14 @@ public abstract class Player {
     }
 
     public List<Move> filteredLegalMoves(Board board) {
-        return filterMoves(getLegalMoves(board));
+        return filterMoves(getLegalMoves(board), board);
     }
 
     public boolean hasCheck(Board board) {
         Piece king = getKing(board);
         Spot[][] spots = board.getSpots();
-        Piece firstPieceInUpDirection = null, firstPieceInDownDirection =null, firstPieceInDirection=null;
-        for (int row = king.getRow()-1; row > 0; row--) {
+        Piece firstPieceInUpDirection = null, firstPieceInDownDirection = null, firstPieceInDirection = null;
+        for (int row = king.getRow() - 1; row > 0; row--) {
             if (spots[row][king.getCol()].getPiece() != null) {
                 if (spots[row][king.getCol()].getPiece().getColor() == color) {
                     if (firstPieceInUpDirection == null)
@@ -183,7 +184,7 @@ public abstract class Player {
                 }
             }
         }
-        for (int col = king.getCol()+1; col < 7; col++) {
+        for (int col = king.getCol() + 1; col < 7; col++) {
             if (spots[king.getRow()][col].getPiece() != null) {
                 if (spots[king.getRow()][col].getPiece().getColor() == color) {
                     if (firstPieceInDirection == null)
@@ -203,7 +204,7 @@ public abstract class Player {
             }
         }
         firstPieceInDirection = null;
-        for (int col = king.getCol()-1; col >0; col--) {
+        for (int col = king.getCol() - 1; col > 0; col--) {
             if (spots[king.getRow()][col].getPiece() != null) {
                 if (spots[king.getRow()][col].getPiece().getColor() == color) {
                     if (firstPieceInDirection == null)
@@ -224,7 +225,7 @@ public abstract class Player {
         }
         firstPieceInDirection = null;
 
-        for (int col = king.getCol()-1 ,row=king.getRow()-1; col > 0 && row >0; col--,row--) {
+        for (int col = king.getCol() - 1, row = king.getRow() - 1; col > 0 && row > 0; col--, row--) {
             if (spots[row][col].getPiece() != null) {
                 if (spots[row][col].getPiece().getColor() == color) {
                     if (firstPieceInDirection == null)
@@ -245,7 +246,7 @@ public abstract class Player {
         }
         firstPieceInDirection = null;
 
-        for (int col = king.getCol()-1 ,row=king.getRow(); col > 0 && row < 7; col--,row++) {
+        for (int col = king.getCol() - 1, row = king.getRow(); col > 0 && row < 7; col--, row++) {
             if (spots[row][col].getPiece() != null) {
                 if (spots[row][col].getPiece().getColor() == color) {
                     if (firstPieceInDirection == null)
@@ -266,7 +267,7 @@ public abstract class Player {
         }
         firstPieceInDirection = null;
 
-        for (int col = king.getCol(),row=king.getRow()-1; col < 7 && row > 0; col++,row--) {
+        for (int col = king.getCol(), row = king.getRow() - 1; col < 7 && row > 0; col++, row--) {
             if (spots[row][col].getPiece() != null) {
                 if (spots[row][col].getPiece().getColor() == color) {
                     if (firstPieceInDirection == null)
@@ -287,7 +288,7 @@ public abstract class Player {
         }
         firstPieceInDirection = null;
 
-        for (int col = king.getCol() ,row=king.getRow(); col < 7 && row < 7; col++,row++) {
+        for (int col = king.getCol(), row = king.getRow(); col < 7 && row < 7; col++, row++) {
             if (spots[row][col].getPiece() != null) {
                 if (spots[row][col].getPiece().getColor() == color) {
                     if (firstPieceInDirection == null)
@@ -306,27 +307,27 @@ public abstract class Player {
                 }
             }
         }
-        if(king.getRow()>2) {
-            if (spots[king.getRow() - 2][king.getCol()-1].getPiece()!=null) {
-                Piece piece = spots[king.getRow() - 2][king.getCol()-1].getPiece();
-                if(piece.getColor()!=color && piece.getPieceType().equals(PieceType.Knight))
+        if (king.getRow() > 2 && king.getCol() >1) {
+            if (spots[king.getRow() - 2][king.getCol() - 1].getPiece() != null) {
+                Piece piece = spots[king.getRow() - 2][king.getCol() - 1].getPiece();
+                if (piece.getColor() != color && piece.getPieceType().equals(PieceType.Knight))
                     return true;
             }
-            if (spots[king.getRow() - 2][king.getCol()+1].getPiece()!=null) {
-                Piece piece = spots[king.getRow() - 2][king.getCol()+1].getPiece();
-                if(piece.getColor()!=color && piece.getPieceType().equals(PieceType.Knight))
+            if (spots[king.getRow() - 2][king.getCol() + 1].getPiece() != null) {
+                Piece piece = spots[king.getRow() - 2][king.getCol() + 1].getPiece();
+                if (piece.getColor() != color && piece.getPieceType().equals(PieceType.Knight))
                     return true;
             }
         }
-        if(king.getRow()<6) {
-            if (spots[king.getRow() + 2][king.getCol()-1].getPiece()!=null) {
-                Piece piece = spots[king.getRow() + 2][king.getCol()-1].getPiece();
-                if(piece.getColor()!=color && piece.getPieceType().equals(PieceType.Knight))
+        if (king.getRow() < 6) {
+            if (spots[king.getRow() + 2][king.getCol() - 1].getPiece() != null) {
+                Piece piece = spots[king.getRow() + 2][king.getCol() - 1].getPiece();
+                if (piece.getColor() != color && piece.getPieceType().equals(PieceType.Knight))
                     return true;
             }
-            if (spots[king.getRow() + 2][king.getCol()+1].getPiece()!=null) {
-                Piece piece = spots[king.getRow() + 2][king.getCol()+1].getPiece();
-                if(piece.getColor()!=color && piece.getPieceType().equals(PieceType.Knight))
+            if (spots[king.getRow() + 2][king.getCol() + 1].getPiece() != null) {
+                Piece piece = spots[king.getRow() + 2][king.getCol() + 1].getPiece();
+                if (piece.getColor() != color && piece.getPieceType().equals(PieceType.Knight))
                     return true;
             }
         }
@@ -335,10 +336,10 @@ public abstract class Player {
 
     public Piece getKing(Board board) {
         Spot[][] spots = board.getSpots();
-        for(int row=0; row<8;row++) {
-            for(int col=0;col<8;col++) {
-                if((spots[row][col].piece!=null && spots[row][col].piece.getPieceType()==PieceType.King)
-                        && spots[row][col].piece.getColor() == color){
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if ((spots[row][col].piece != null && spots[row][col].piece.getPieceType() == PieceType.King)
+                        && spots[row][col].piece.getColor() == color) {
                     return spots[row][col].piece;
                 }
             }
@@ -347,9 +348,9 @@ public abstract class Player {
     }
 
     public Board simulateMove(Board board, Move legalMove) {
+        board.resetPiecePositions(board);
         Board simualtedBoard = board.deepClone();
-        simualtedBoard.simulateExecuteMove(simualtedBoard, legalMove);
-        return simualtedBoard;
+        return simualtedBoard.simulateExecuteMove(simualtedBoard, legalMove);
     }
 
     public abstract Move getMove();

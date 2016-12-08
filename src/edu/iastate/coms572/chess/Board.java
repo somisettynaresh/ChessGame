@@ -66,7 +66,7 @@ public class Board implements Serializable, Closeable {
     public boolean executeMove(Board board, Move move) {
         history.add(move);
         move.getPiece().setHasMoved(true);
-        //resetPiecePositions(board);
+        resetPiecePositions(board);
         Piece piece = move.getPiece();
         Spot[][] spots = board.getSpots();
         // check and change the state on spot
@@ -94,7 +94,7 @@ public class Board implements Serializable, Closeable {
         return piece;
     }
 
-    private void resetPiecePositions(Board board) {
+     void resetPiecePositions(Board board) {
         Spot[][] spots = board.getSpots();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -106,18 +106,19 @@ public class Board implements Serializable, Closeable {
         }
     }
 
-    public boolean simulateExecuteMove(Board board, Move move) {
+    public Board simulateExecuteMove(Board board, Move move) {
         Spot[][] spots = board.getSpots();
         Piece piece = spots[move.curRow][move.curCol].getPiece();
         piece.setHasMoved(true);
         // check and change the state on spot
         spots[move.curRow][move.curCol].piece = null;
-        Piece taken = spots[move.desRow][move.desCol].occupySpot(piece);
+        Piece taken = spots[move.desRow][move.desCol].getPiece();
+        spots[move.desRow][move.desCol].piece = piece;
         if (taken != null && taken.getPieceType().equals(PieceType.King)) {
             board.setWin(true);
 
         }
-        return true;
+        return board;
     }
 
     public boolean getWin() {

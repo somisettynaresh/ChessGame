@@ -50,7 +50,7 @@ public class Utility {
         //System.out.print(", " + developmentHValue);
         double kingSafetyHValue = getKingSafetyHValue(board, player);
         //System.out.print(", " + kingSafetyHValue + "\n");
-        return 100 * materialHValue + (board.getHistory().size() < 20 ? 15 * pawnStructHValue : 20 * pawnStructHValue) + 20 * spaceHValue + 20 * developmentHValue + (board.getHistory().size() < 20 ? 25 * kingSafetyHValue : 20 * kingSafetyHValue);
+        return 100 * materialHValue + (board.getHistory().size() < 20 ? 15 * pawnStructHValue : 20 * pawnStructHValue) + 20 * spaceHValue + 20 * developmentHValue + (board.getHistory().size() < 20 ? 25 * kingSafetyHValue : 100 * kingSafetyHValue);
 
     }
 

@@ -68,7 +68,7 @@ public class Pawn extends Piece {
 
     	//Check for basic forward move
 		//If its empty, move
-		if(!curSpots[this.getRow()+1][this.getCol()].isOccupied()){
+		if( this.getRow()+1 <8  && !curSpots[this.getRow()+1][this.getCol()].isOccupied()){
 			legalMoves.add(new Move(this,
 									this.getRow()+1,
 									this.getCol()));

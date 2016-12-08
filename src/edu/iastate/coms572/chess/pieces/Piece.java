@@ -90,7 +90,7 @@ public abstract class Piece implements Serializable{
     public boolean isValidMoveForCheck(Board board, int fromRow, int fromCol, int toRow, int toCol){
         if(Game.getCurrentPlayer() == Game.getHumanPlayer()) {
             Board simulatedBoard = board.deepClone();
-            simulatedBoard.simulateExecuteMove(simulatedBoard,new Move(this,fromRow,fromCol,toRow,toCol));
+            simulatedBoard = simulatedBoard.simulateExecuteMove(simulatedBoard,new Move(this,fromRow,fromCol,toRow,toCol));
             return !Game.getCurrentPlayer().hasCheck(simulatedBoard);
         }
         return true;
