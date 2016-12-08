@@ -163,5 +163,8 @@ public class Bishop extends Piece {
     	
 		return legalMoves;
     }
-    
+
+	public Bishop(Piece piece) {
+		super(piece);
+	}
 }

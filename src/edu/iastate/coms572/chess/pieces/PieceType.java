@@ -1,6 +1,8 @@
 package edu.iastate.coms572.chess.pieces;
 
-public enum PieceType {
+import java.io.Serializable;
+
+public enum PieceType implements Serializable{
 
     Pawn {
         @Override

@@ -2,10 +2,12 @@ package edu.iastate.coms572.chess;
 
 import edu.iastate.coms572.chess.pieces.Piece;
 
+import java.io.Serializable;
+
 /**
  * Created by Naresh on 11/17/2016.
  */
-public class Move {
+public class Move implements Serializable{
 
 
     /**

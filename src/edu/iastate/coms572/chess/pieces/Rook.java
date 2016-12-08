@@ -173,5 +173,9 @@ public class Rook extends Piece {
     	
 		return legalMoves;
     }
-   
+
+	public Rook(Piece piece) {
+		super(piece);
+
+	}
 }

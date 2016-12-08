@@ -5,11 +5,16 @@ import edu.iastate.coms572.chess.players.ComputerPlayer;
 import edu.iastate.coms572.chess.players.HumanPlayer;
 
 import javax.swing.*;
+import java.util.BitSet;
+import java.util.List;
 
 /**
  * Created by Naresh on 11/17/2016.
  */
 public class Game {
+    private boolean win;
+    private Player winner;
+
     /**
      * Getter for property 'board'.
      *
@@ -23,6 +28,8 @@ public class Game {
     final Board board = new Board();
     private static Player currentPlayer;
     static Player humanPlayer;
+    private final int ALPHA_BETA_THRESHOLD = 3;
+
 
     /**
      * Getter for property 'humanPlayer'.
@@ -43,7 +50,7 @@ public class Game {
     }
 
     static Player computerPlayer;
-    private static ChessGUI chessGUI;
+    public static ChessGUI chessGUI;
 
     private Game() {
 
@@ -96,13 +103,19 @@ public class Game {
         }
     }
 
-     void processTurn(Player player) {
+    void processTurn(Player player) {
         currentPlayer = player;
         if (!player.getClass().getName().contains("HumanPlayer")) {
             Move move = player.getMove();
-            board.executeMove(board, move);
-            chessGUI.updatePiecesUI();
-            processTurn(getOpponent());
+            if (move == null) {
+                this.setWin(true);
+                this.setWinner(getOpponent(player));
+                chessGUI.endGame(getOpponent(player).color.name());
+            } else {
+                board.executeMove(board, move);
+                chessGUI.updatePiecesUI();
+                processTurn(getOpponent());
+            }
         }
     }
 
@@ -134,5 +147,35 @@ public class Game {
         if (game == null)
             game = new Game();
         return game;
+    }
+
+    public static Player getOpponent(Player player) {
+        if (player == humanPlayer)
+            return computerPlayer;
+        return humanPlayer;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public  List<Move> getHistory() {
+        return board.getHistory();
+    }
+
+    public boolean isTerminal(Board state, int historySize) {
+        return state.isWin() || (historySize-game.getHistory().size()) >= ALPHA_BETA_THRESHOLD;
     }
 }

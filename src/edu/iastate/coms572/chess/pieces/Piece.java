@@ -1,9 +1,10 @@
 package edu.iastate.coms572.chess.pieces;
 
 import edu.iastate.coms572.chess.Board;
+import edu.iastate.coms572.chess.Game;
 import edu.iastate.coms572.chess.Move;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public abstract class Piece implements Serializable{
     private boolean alive; // mark the live or dead
     private PieceColor color; // mark the owner
     private PieceType pieceType;
+    private boolean hasMoved;
 
     /**
      * Getter for property 'color'.
@@ -72,6 +74,7 @@ public abstract class Piece implements Serializable{
         this.alive = alive;
     }
     public int getRow() {
+
         return row;
     }
     public void setRow(int row) {
@@ -84,11 +87,38 @@ public abstract class Piece implements Serializable{
         this.col = col;
     }
 
+    public boolean isValidMoveForCheck(Board board, int fromRow, int fromCol, int toRow, int toCol){
+        if(Game.getCurrentPlayer() == Game.getHumanPlayer()) {
+            Board simulatedBoard = board.deepClone();
+            simulatedBoard.simulateExecuteMove(simulatedBoard,new Move(this,fromRow,fromCol,toRow,toCol));
+            return !Game.getCurrentPlayer().hasCheck(simulatedBoard);
+        }
+        return true;
+    }
     public abstract boolean isValidMove(Board board, int fromRow, int fromCol, int toRow, int toCol);
-    public abstract List<Move> getPossibleMoves(Board board, int fromRow, int fromCol);
+
+    public  abstract List<Move> getPossibleMoves(Board board, int fromRow, int fromCol);
 
     public String getPath() {
         return getColor().toString() +"_" + getPieceType().toString() + ".png";
     }
     public abstract int getValue();
+
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
+    public Piece(Piece piece) {
+        this.pieceType = piece.getPieceType();
+        this.row = piece.getRow();
+        this.col = piece.getCol();
+        this.alive = piece.isAlive();
+        this.hasMoved = piece.hasMoved;
+        this.color = piece.color;
+    }
+
 }

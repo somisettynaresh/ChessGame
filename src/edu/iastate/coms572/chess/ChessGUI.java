@@ -100,11 +100,11 @@ public class ChessGUI {
         gui.add(boardConstrain);
 
         // create the chess board squares
-        Insets buttonMargin = new Insets(0, 0, 0, 0);
+        Insets bMargin = new Insets(0, 0, 0, 0);
         for (int ii = 0; ii < 8; ii++) {
             for (int jj = 0; jj < 8; jj++) {
                 JButton b = new JButton();
-                b.setMargin(buttonMargin);
+                b.setMargin(bMargin);
                 final int finalIi = ii;
                 final int finalJj = jj;
                 b.addActionListener(e -> {
@@ -113,8 +113,8 @@ public class ChessGUI {
                         pieceSelected = null;
                         piceSelectedPosX = -1;
                         piceSelectedPosY = -1;
-                    } else if (pieceSelected != null && (pieceSelected.getColor() == Game.getCurrentPlayer().color) && pieceSelected.isValidMove(Game.getInstance().getBoard(), pieceSelected.getRow(), pieceSelected.getCol(), finalIi, finalJj)) {
-                        Game.getInstance().getBoard().executeMove(Game.getInstance().getBoard(), new Move(pieceSelected, finalIi, finalJj));
+                    } else if (pieceSelected != null && (pieceSelected.getColor() == Game.getCurrentPlayer().color) && pieceSelected.isValidMove(Game.getInstance().getBoard(), piceSelectedPosX, piceSelectedPosY, finalIi, finalJj) && pieceSelected.isValidMoveForCheck(Game.getInstance().getBoard(), piceSelectedPosX, piceSelectedPosY, finalIi, finalJj)) {
+                        Game.getInstance().getBoard().executeMove(Game.getInstance().getBoard(), new Move(pieceSelected, piceSelectedPosX, piceSelectedPosY, finalIi, finalJj));
                         chessBoardSquares[piceSelectedPosX][piceSelectedPosY].setBackground(getBackgroundColor(piceSelectedPosX, piceSelectedPosY));
                         pieceSelected = null;
                         piceSelectedPosX = -1;
@@ -122,7 +122,7 @@ public class ChessGUI {
                         updatePiecesUI();
                         Game.getInstance().processTurn(getOpponent());
                     } else if (pieceSelected == null && spots[finalIi][finalJj].getPiece() != null) {
-                        if(spots[finalIi][finalJj].getPiece().getColor()==Game.getCurrentPlayer().color) {
+                        if (spots[finalIi][finalJj].getPiece().getColor() == Game.getCurrentPlayer().color) {
                             pieceSelected = spots[finalIi][finalJj].getPiece();
                             piceSelectedPosX = pieceSelected.getRow();
                             piceSelectedPosY = pieceSelected.getCol();
@@ -178,12 +178,12 @@ public class ChessGUI {
         return gui;
     }
 
-     void updatePiecesUI() {
+    void updatePiecesUI() {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Piece piece = spots[i][j].getPiece();
-                chessBoardSquares[j][i].setBackground(getBackgroundColor(i,j));
+                chessBoardSquares[j][i].setBackground(getBackgroundColor(i, j));
                 if (piece != null)
                     chessBoardSquares[j][i].setIcon(new ImageIcon("D:/ISU/Courses/572/project/Chess/out/production/Chess/edu/iastate/coms572/chess/images/" + piece.getPath()));
                 else
@@ -201,4 +201,10 @@ public class ChessGUI {
     }
 
 
+    public void endGame(String player) {
+        JOptionPane.showMessageDialog(gui, "Game Over & Winner is  " + player);
+        Game.getInstance().initGame();
+        Game.getInstance().startGame();
+
+    }
 }

@@ -15,6 +15,10 @@ public class Knight extends Piece {
         super(isAlive,x,y,pieceColor,PieceType.Knight);
     }
 
+	public Knight(Piece piece){
+		super(piece);
+	}
+
     @Override
     public boolean isValidMove(Board board, int fromRow, int fromCol, int toRow, int toCol) {
     	if(fromRow < 0 || fromRow > 7 ||

@@ -6,6 +6,7 @@ import edu.iastate.coms572.chess.Spot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by Naresh on 11/17/2016.
@@ -283,6 +284,10 @@ public class Queen extends Piece {
         }
 
         return legalMoves;
+    }
+
+    public Queen(Piece piece) {
+        super(piece);
     }
 
 }
