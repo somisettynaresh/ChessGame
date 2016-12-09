@@ -185,7 +185,7 @@ public class ChessGUI {
                 Piece piece = spots[i][j].getPiece();
                 chessBoardSquares[j][i].setBackground(getBackgroundColor(i, j));
                 if (piece != null)
-                    chessBoardSquares[j][i].setIcon(new ImageIcon("D:/ISU/Courses/572/project/Chess/out/production/Chess/edu/iastate/coms572/chess/images/" + piece.getPath()));
+                    chessBoardSquares[j][i].setIcon(new ImageIcon( this.getClass().getResource("/images/" + piece.getPath())));
                 else
                     chessBoardSquares[j][i].setIcon(null);
             }
